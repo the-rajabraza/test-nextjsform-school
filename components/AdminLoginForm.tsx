@@ -36,7 +36,6 @@ export default function AdminLoginForm() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(values),
-                credentials: 'include', // Allows cookies to be sent with the request
             })
 
             const data = await response.json()
