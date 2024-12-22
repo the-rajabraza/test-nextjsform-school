@@ -30,8 +30,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 })
     }
 
+    // Set session cookie
+    const response = NextResponse.json({ success: true });
+    response.cookies.set('admin_session', data.id, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      path: '/',
+      sameSite: 'strict', // Ensure CSRF protection
+    });
+
     console.log('Login successful for email:', email)
-    return NextResponse.json({ success: true })
+    return response; // Make sure to return the modified response
   } catch (error) {
     console.error('Unexpected error during login:', error)
     return NextResponse.json({ error: 'An unexpected error occurred' }, { status: 500 })
